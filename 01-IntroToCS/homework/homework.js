@@ -19,6 +19,9 @@ function DecimalABinario(num) {
   while(num > 0){
     array.unshift(num % 2);
     num = Math.floor(num / 2);
+     //ahi tenria q aparecer
+
+    
 }
 
 return array.join("");

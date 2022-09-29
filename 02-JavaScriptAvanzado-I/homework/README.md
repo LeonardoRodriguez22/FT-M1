@@ -6,6 +6,10 @@
 Determiná que será impreso en la consola, sin ejecutar el código.
 
 > Investiga cuál es la diferencia entre declarar una variable con `var` y directamente asignarle un valor.
+//Asignar un valor a una variable no declarada implica crearla como variable global.
+//La diferencia es que las variables declaradas se limitan al contexto de ejecución en el cual son declaradas. Las variables NO declaradas siempre son globales.
+​
+// Se recomienda siempre declarar las variables, sin importar si están en una función o un ámbito global. Y en el modo estricto (strict mode) de ECMAScript 5, asignar valor a una variable sin declarar lanzará un error.
 
 ```javascript
 x = 1;
@@ -28,7 +32,19 @@ c(8,9,10);
 console.log(b); /// 10 
 console.log(x); /// 1
 ```
-
+//Hoisting
+//¿Que pasaba con las variables?
+//usaba solo la definicion, no su valor
+//va a subir 
+//var bar
+//funcion foo(){}
+console.log(bar);//undefined
+console.log(baz);//no esta definido
+foo(); //¿Que pasaba con las funciones ?
+function foo() { console.log('Hola!'); }
+var bar = 1;
+baz = 2;
+​
 ```javascript
 console.log(bar);       /// undefined
 console.log(baz);       /// is not defined !!!se rompe el codigo!!!
@@ -57,7 +73,7 @@ console.log(instructor); // "Tony"
 })();
 console.log(instructor);  //  "Tony"  
 ```
-
+//let vive entre llaves, entre un bloque de código.
 ```javascript
 var instructor = "Tony";
 let pm = "Franco";

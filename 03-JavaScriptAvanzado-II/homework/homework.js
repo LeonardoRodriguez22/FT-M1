@@ -1,8 +1,35 @@
 "use strict";
 
-// Closures
+// Closures: una funcion q retorna otra fucion!!! 
+
+
+
+// 
+// function counter(contador = 0) {
+// return() => (contador++)
+// const cont = counter()
+// const cont2 = counter()
+
 
 function counter() {
+
+  var contador = 0;
+
+  return function(){ 
+    contador++;
+    return contador;  
+  }
+
+}
+// var contadora = counter()
+// console.log(contadora())
+
+
+
+
+
+  
+  
   /*
   Ejercicio 1
 
@@ -18,10 +45,29 @@ function counter() {
   otroContador()      // 1
   otroContador()      // 2
   otroContador()      // 3
-   */
-}
+//    */
+//   var contador = 0
+//   return function(){
+//     contador++;
+//     return contador;
+//   }
+// }
 
 function cacheFunction(cb) {
+  
+  var cache = {}         ///creamos el cache (objeto)
+
+  return function(arg){
+    if(cache.hasOwnProperty(arg)){    // pregunta si esta la propiedad
+      return cache[arg];              // si esta la propiedad la retorna
+    } else{                           // sino 
+      cache[arg] = cb(arg);   // le coloca el resultado del callback a cache..
+      return cache[arg];       //retorna l apropiedad arg del objeto cache
+    }
+   
+ }
+}
+
   /*
   Ejercicio 2
 
@@ -40,8 +86,17 @@ function cacheFunction(cb) {
   squareCache(5)    // invocará a square(5), almacenará el resultado y lo retornará
   squareCache(5)    // no volverá a invocar a square, simplemente buscará en la caché cuál es el resultado de square(5) y lo retornará (tip: si usaste un objeto, podés usar hasOwnProperty) 
 
-  */
-}
+  // */
+  // var miCache= {}
+
+  // return function(arg1){
+  //   if(miCache.hasOwnProperty(arg1)){
+  //   return miCache[arg1];
+  // }else{
+  //   miCache[arg1] = (cb(arg1));
+  //   return miCache[arg1];
+  // }
+// }
 
 // Bind
 
@@ -58,17 +113,16 @@ var alumno = {
 function getNombre() {
   return this.nombre;
 }
-
 /*
   Ejercicio 3
 
   IMPORTANTE: no modificar el código de arriba (variables instructor y alumno, y función getNombre)
 
   Usando el método bind() guardar, en las dos variables declaradas a continuación, dos funciones que actúen como getNombre pero retornen el nombre del instructor y del alumno, respectivamente.
-*/
+// */
 
-let getNombreInstructor;
-let getNombreAlumno;
+let getNombreInstructor = getNombre.bind(instructor);
+let getNombreAlumno = getNombre.bind(alumno);
 
 /*
   Ejercicio 4
@@ -80,9 +134,9 @@ function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena) {
   return delimitadorIzquierda + cadena + delimitadorDerecha;
 }
 
-let textoAsteriscos;
-let textoGuiones;
-let textoUnderscore;
+let textoAsteriscos = crearCadena.bind(null,"*","*");
+let textoGuiones = crearCadena.bind(1,"-","-");;
+let textoUnderscore = crearCadena.bind(undefined,"_","_");;
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
