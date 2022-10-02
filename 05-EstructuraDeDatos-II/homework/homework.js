@@ -7,15 +7,104 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   - search: recibe un parámetro y lo busca dentro de la lista, con una particularidad: el parámetro puede ser un valor o un callback. En el primer caso, buscamos un nodo cuyo valor coincida con lo buscado; en el segundo, buscamos un nodo cuyo valor, al ser pasado como parámetro del callback, retorne true. 
   Ejemplo: 
   search(3) busca un nodo cuyo valor sea 3;
-  search(isEven), donde isEven es una función que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.
+  searnción que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.ch(isEven), donde isEven es una fu
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
+class LinkedList {
+  
+  constructor() {
+    this.head = null;
+    this.length = 0;                  ///acumula el largo de la lista
+                                      //representa el primer elemento de la lista q seria el primer NODO!!!
+  }
+  add(dato) {
+    let node = new Node(dato);        //// creo el nuevo NODO  value:data, next: null!!!
+    let courrent = this.head;     /// veo q ahi en  el primer NODO si ahi o no uno creado!!!
+    if(!courrent) {                  //// si esta vacio lo creo como HEAD!!! osea el primer NODO!!!
+      this.head = node;
+    }else{
+    while(courrent.next) {              /// mientras exista un NEXT (osea un NODO siguiente)segui..!!!
+      courrent = courrent.next;            //// courrent pasa a ser el NODO  siguiente hasta q el NODO de turno tenga un NEXT = NULL!!
+    }
+    courrent.next = node;                 /// cuando el NEXT del NODO pasa a ser NULL se enlaza el nuevo NODO!!! 
+    
+    }
+    this.length++;
+  }
 
-function Node(value) {}
+  remove(){
+    if(this.head === null) return null;    
+      
+    else if(this.head && !this.head.next){   
+      let ultimoElemento = this.head.value;
+      this.head = null;
+      return ultimoElemento;
+    }
+    let courrent = this.head
+    while(courrent.next) {             
+      courrent = courrent.next;        
+    }
+    let nodoEliminado = this.head.next.value;
+    this.head.next = null;
+    return nodoEliminado  
+   
+  }
+  // search: recibe un parámetro y lo busca dentro de la lista, con una particularidad: el parámetro puede ser un valor o un callback. En el primer caso, buscamos un nodo cuyo valor coincida con lo buscado; en el segundo, buscamos un nodo cuyo valor, al ser pasado como parámetro del callback, retorne true. 
+  // Ejemplo: 
+  // search(3) busca un nodo cuyo valor sea 3;
+  // search(función) que retorna true cuando recibe por parámetro un número par, busca un nodo cuyo valor sea un número par.ch(isEven), donde isEven es una fu
+  // En caso de que la búsqueda no arroje resultados, search debe retornar null.
+  search(arg){
+    if(!this.head)return null;
 
-/*
+    var busqueda;
+    if(typeof arg != "function"){
+      busqueda = function(data){
+        return data === arg;
+      }
+    }else{
+      busqueda = arg;
+    }
+  
+  var courrent = this.head;
+  while(courrent){
+        
+        if(busqueda(courrent.value)){
+          return courrent.value;
+        }else{
+          courrent = courrent.next;
+        }
+  }
+  return null
+  
+  }
+}
+    // 
+    // if (courrent.value === null){
+    //   return null;
+    // }else{
+    //   
+    //     }
+    //   }
+    //   }
+    
+  
+
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null; 
+    
+  }
+}
+
+
+
+
+
+  /*
 Implementar la clase HashTable.
 
 Nuetra tabla hash, internamente, consta de un arreglo de buckets (slots, contenedores, o casilleros; es decir, posiciones posibles para almacenar la información), donde guardaremos datos en formato clave-valor (por ejemplo, {instructora: 'Ani'}).
@@ -30,7 +119,51 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+function HashTable() {
+  this.numBuckets = 35;
+  this.buckets = [];
+}
+
+HashTable.prototype.hash = function (key){
+  var sum = 0;
+  for (let i = 0; i  < key.length; i++) {
+     sum = sum +  key.charCodeAt(i);
+  }
+  return sum % this.numBuckets;
+}
+
+
+HashTable.prototype.set = function(key, value){
+  if(typeof key !== `string`) throw TypeError (`Keys must be strings`);
+  var pos = this.hash(key);
+  this.buckets[pos] = this.buckets[pos] || [];
+  this.buckets[pos].unshift({key: key, value: value});
+
+}
+
+HashTable.prototype.get = function(key){
+  var pos = this.hash(key);
+  var subArray = this.buckets[pos]
+  for (let i = 0; i < subArray.length; i++) {
+    if(subArray[i].key === key){
+      return subArray[i].value;
+    } 
+  }
+  return false;
+}
+
+HashTable.prototype.hasKey = function(key){
+  if(this.get(key))return true;
+  else return false;
+  // let i= this.hash(key);
+  // return this.buckets[i].hasOwnProperty(key);
+}
+
+
+
+
+
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
