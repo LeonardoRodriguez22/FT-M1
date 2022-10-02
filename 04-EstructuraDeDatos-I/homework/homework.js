@@ -58,7 +58,7 @@ Pueden utilizar class o función constructora.
 class Queue{
   
   constructor(){
-    this.array = []
+    this.array = [];
   }
 
 enqueue(value){ 
